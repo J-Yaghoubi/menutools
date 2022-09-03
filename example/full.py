@@ -15,7 +15,7 @@ def about():
 def argument_func(text: str):
     print(text)
 
-custom = partial(about, 'This is argument of our function')
+custom = partial(argument_func, 'This is argument of our function')
 
 
 # Colorize the menu before initializing

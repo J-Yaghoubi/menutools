@@ -1,9 +1,17 @@
 # MenuTools
 A powerful tool to create customizable command prompt menu as simple as possible.
 
++ [Instalation](#instalation)
 + [How to use it](#how-to-use-it)
 + [Customization](#customization)
 + [Some more](#more)
+
+## Instalation:
+just write this code on the python command line:
+
+```bash
+pip install menutools
+```
 
 ## How to use it:
 In the simplest way, all things to do is create a menu object, add a route, then execute the menu.      
