@@ -1,4 +1,4 @@
-# Menus
+# MenuTools
 A powerful tool to create customizable command prompt menu as simple as possible.
 
 + [How to use it](#how-to-use-it)
