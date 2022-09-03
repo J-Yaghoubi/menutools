@@ -7,11 +7,14 @@ from functools import partial
     make customization
 """
 
+# function without argument
+def about():
+    print('This is menutools')
+
 # function with argument
-def about(text: str):
+def argument_func(text: str):
     print(text)
 
-#
 custom = partial(about, 'This is argument of our function')
 
 
@@ -22,10 +25,10 @@ Color.PROMPT = 130
 Color.INTERFACE = 245
 
 # Create menu-object
-menu = Menu(header='Example', border='*', border_length=60, align='left', splitter=')', prompt='=>')
+menu = Menu(header='Example', border='=', border_length=60, align='left', splitter=')', prompt='=>')
 
 # Add sub-menu(route)
-menu.add(('First', [('About', custom), ('Second route', menu.next), ('Exit', menu.exit)]))
+menu.add(('First', [('About', about), ('Other', custom), ('Second route', menu.next)]))
 menu.add(('Second', [('First route', menu.back), ('Third route', menu.next)]))
 menu.add(('Third', [('First route', 'First'), ('Second route', menu.back), ('Exit', menu.exit)]))
 

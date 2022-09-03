@@ -58,9 +58,12 @@ In addition to color, it is possible to do some interface changes when we create
 ```python
 from menutools import Menu
 
-menu = Menu(header='Example', border='*', border_length=60,
+menu = Menu(header='Example', border='=', border_length=60,
     align='left', splitter=')', prompt='=>')
 ```
+
+![Mneu](/src/menu.png)
+
 
 ## More:
 If need to know more about using this tools can check the Example directory.
