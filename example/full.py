@@ -1,5 +1,5 @@
-from menus import Menu
-from menus import Color
+from menutools import Menu
+from menutools import Color
 from functools import partial
 
 """

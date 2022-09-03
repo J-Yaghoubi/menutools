@@ -1,5 +1,4 @@
-from menus import Menu
-from menus import Color
+from menutools import Menu
 
 """
     An example that show how to use the menu, define sub menu,
