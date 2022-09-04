@@ -34,6 +34,8 @@ def simple_function():
 # Argument function
 def argument_function(subject: str):
     print(subject)
+    # we want switch to second route after finishing the job
+    return 'Second'
 
 custom = partial(argument_function, 'argument')
 
@@ -48,18 +50,22 @@ menu.add(('Second', [('One', menu.back), ('Two', 'First'), ('Exit', menu.exit)])
 menu.execute()
 ```
 
+One another option that can benefit from it is switching between routes after executing a function. For example suppose we are in route First and run a custom function. If at the end we return a string that matches one defined route, then the menu will appear from that menu instead of the First route.
+
+
 ## Customization:
-For colorization, import Color class from project and choose your favorite colors in the form of integer number between 0~255. In this case you can customize the color of header, menu, interface, and prompt. The following is an example:
+For colorization, import Color class from project and choose your favorite colors in the form of integer number between 0~255. In this case you can customize the color of header, menu, interface, and prompt. Note that Colorizing should be done before creating the menu-object. The following is an example:
 
 ```python
 from menutools import Color
 
+Color.BORDER = 100
 Color.HEADER = 144
 Color.MENU = 5
 Color.PROMPT = 130
 Color.INTERFACE = 245
 ```
-Note: Colorizing should be done before creating the menu-object.
+
 
 In addition to color, it is possible to do some interface changes when we create a new menu object. At this level, we can customize the border, align of header text, choose the splitter, and etc:
 
@@ -67,10 +73,10 @@ In addition to color, it is possible to do some interface changes when we create
 from menutools import Menu
 
 menu = Menu(header='Example', border='=', border_length=60,
-    align='left', splitter=')', prompt='=>')
+    align='center', splitter=')', prompt='=>')
 ```
 
-![Mneu](/src/menu.png)
+![Mneu](/src/example.png)
 
 
 ## More:

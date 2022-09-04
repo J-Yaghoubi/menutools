@@ -4,7 +4,7 @@ from functools import partial
 
 """
     An example that show how to use all power of the program and
-    make customization
+    make customized menu
 """
 
 # function without argument
@@ -14,18 +14,21 @@ def about():
 # function with argument
 def argument_func(text: str):
     print(text)
+    # we want switch to second route after finishing the job
+    return 'Second'
 
 custom = partial(argument_func, 'This is argument of our function')
 
 
 # Colorize the menu before initializing
+Color.BORDER = 32
 Color.HEADER = 144
 Color.MENU = 5
 Color.PROMPT = 130
 Color.INTERFACE = 245
 
 # Create menu-object
-menu = Menu(header='Example', border='=', border_length=60, align='left', splitter=')', prompt='=>')
+menu = Menu(header='Example', border='=', border_length=60, align='center', splitter=')', prompt='=>')
 
 # Add sub-menu(route)
 menu.add(('First', [('About', about), ('Other', custom), ('Second route', menu.next)]))

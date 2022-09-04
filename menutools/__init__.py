@@ -3,6 +3,7 @@ import sys
 
 
 class Color:
+    BORDER = 0
     HEADER = 0
     MENU = 0
     PROMPT = 0
@@ -13,55 +14,77 @@ class Menu:
     """
     A class for creating command-line menus
 
+
     Attributes
     ----------
-    header : str
-        text that print on head of program
-    splitter : str
-        character that split the index number from menu-title
-    prompt : str
-        character representing that program is waiting for a key
+    header: str
+        The text that appears in the header of the program as the project name
+
+    border: str
+        Define character that repeat as border
+
+    border_length: int
+        Defining the repeat of the border character
+
+    align: str
+        This can be set to left, right, or center and define header alignment. By default is left
+
+    splitter: str
+        Character that split the index number from menu-titles
+
+    prompt: str
+        The character representing the program is waiting for a key
+
 
     Methods
     -------
-    add(sub_menu):
-        Get the tuple and save it as new defined route   
+    add:
+        Create a new defined route by getting the tuple   
 
     exit:
-        Close the program and end the program
-
-    select:
-        Get a sub_menu title and set the cursor on this route and 
-        make it current route
+        Stop the program from running
 
     next:
-        Select next route as a current route
+        Set next route as selected route
 
     back:
-        Select previous route as a current route
+        Make the previous route the selected route
 
     execute:
-        run the program and print list of options in the current route
+        Print a list of options in the current route by running the program
     """
 
-    def __init__(self, header: str = None, border: str = '=', border_length: int = 50, align : str = 'center', splitter: str = '.', prompt: str = '>>') -> None:
+    def __init__(self, header: str = None, border: str = '=', border_length: int = 50, align: str = 'left', splitter: str = '.', prompt: str = '>>') -> None:
         self.header = header
         self.border = border
         self.border_length = border_length
-        self.align = '^' if align.lower() == 'center' else '>' if align.lower() == 'right' else '<'
+        self.align = '^' if align.lower(
+        ) == 'center' else '>' if align.lower() == 'right' else '<'
         self.prompt = prompt
         self.splitter = splitter
         self._cursor = 0
-        self._sub = []
+        self._routes = []
         self._key = 0
-        self._c_header = u"\u001b[38;5;" + str(Color.HEADER) + "m"
-        self._c_menu = u"\u001b[38;5;" + str(Color.MENU) + "m"
-        self._c_prompt = u"\u001b[38;5;" + str(Color.PROMPT) + "m" 
-        self._c_interface = u"\u001b[38;5;" + str(Color.INTERFACE) + "m" 
+        self._c_border = self._colorize(Color.BORDER)
+        self._c_header = self._colorize(Color.HEADER)
+        self._c_menu = self._colorize(Color.MENU)
+        self._c_prompt = self._colorize(Color.PROMPT)
+        self._c_interface = self._colorize(Color.INTERFACE)
 
     def _refresh(self) -> None:
-        """Clear screen"""
+        """Clear the screen"""
         os.system('clear') if os.name == 'posix' else os.system('cls')
+
+    def _colorize(self, value: int) -> str:
+        """Validate the selected color code"""
+        try:
+            value = int(value)
+            if 0 <= value <= 255:
+                return u"\u001b[38;5;" + str(value) + "m"
+        except:
+            pass
+
+        return u"\u001b[38;5;0m"
 
     def _waiting(self, any=False) -> int:
         """
@@ -86,16 +109,18 @@ class Menu:
         else:
             return key - 1
 
-    def _print_header(self) -> None:
+    def _print_header(self, job: str = None) -> None:
         """
         The functionality of this method is clearing the screen and printing the header
         """
         self._refresh()
         if self.header:
-            print(f'{self._c_header}{self.border * self.border_length}')
-            title = f'{self.header}::{self._sub[self._cursor][0]}'
+            print(self._c_border + self.border * self.border_length)
+            job_title = f'::{job}' if job else ''
+            title = f'{self._c_header}{self.header}::{self._routes[self._cursor][0]}{job_title}'
             print(f'{title:{self.align}{self.border_length}}')
-            print(self.border * self.border_length + self._c_interface + '\n')
+            print(self._c_border + self.border *
+                  self.border_length + self._c_interface + '\n')
 
     def _show(self) -> None:
         """
@@ -104,7 +129,7 @@ class Menu:
         """
         self._print_header()
         order = 1
-        for m in self._sub[self._cursor][1]:
+        for m in self._routes[self._cursor][1]:
             print(self._c_menu + str(order) + self.splitter, m[0])
             order += 1
 
@@ -117,14 +142,14 @@ class Menu:
         route : str
             it will search the input str in menu routes and set cursor on requested route
         """
-        for cur in self._sub:
+        for cur in self._routes:
             if cur[0] == route:
-                self._cursor = self._sub.index(cur)
+                self._cursor = self._routes.index(cur)
                 break
 
     def next(self) -> None:
         """Select next route if exists"""
-        if self._cursor < len(self._sub) - 1:
+        if self._cursor < len(self._routes) - 1:
             self._cursor += 1
         self.execute()
 
@@ -140,31 +165,32 @@ class Menu:
 
     def add(self, sub_menu: tuple) -> None:
         """Define new route"""
-        self._sub.append(sub_menu)
+        self._routes.append(sub_menu)
 
     @property
     def _current_title(self):
-        return self._sub[self._cursor][1][self._key][0]
+        return self._routes[self._cursor][1][self._key][0]
 
     @property
     def _current_function(self):
-        return self._sub[self._cursor][1][self._key][1]
+        return self._routes[self._cursor][1][self._key][1]
 
     def execute(self) -> None:
         """Execute the menu"""
         self._show()
         self._key = self._waiting()
 
-        if self._key > len(self._sub[self._cursor][1])-1 or self._key < 0:
+        if self._key > len(self._routes[self._cursor][1])-1 or self._key < 0:
             self.execute()
         else:
             if isinstance(self._current_function, str):
                 self._select(self._current_function)
                 self.execute()
             else:
-                self._print_header()
-                situation = self._current_function()
-                if situation:
-                    self._select(situation)
+                self._print_header(self._current_title)
+                result = self._current_function()
+                if isinstance(result, str):
+                    self._select(result)
                 self._waiting(any=True)
                 self.execute()
+
