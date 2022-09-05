@@ -117,8 +117,8 @@ class Menu:
         if self.header:
             print(self._c_border + self.border * self.border_length)
             job_title = f'::{job}' if job else ''
-            title = f'{self._c_header}{self.header}::{self._routes[self._cursor][0]}{job_title}'
-            print(f'{title:{self.align}{self.border_length}}')
+            title = f'{self.header}::{self._routes[self._cursor][0]}{job_title}'
+            print(f'{self._c_header}{title:{self.align}{self.border_length}}')
             print(self._c_border + self.border *
                   self.border_length + self._c_interface + '\n')
 
