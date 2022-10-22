@@ -68,7 +68,7 @@ class Menu:
         self.prompt = prompt
         self.splitter = splitter
         self._cursor = 0
-        self._routes = []
+        self._routes: list = []
         self._key = 0
         self._c_border = self._colorize(Color.BORDER)
         self._c_header = self._colorize(Color.HEADER)
@@ -91,7 +91,7 @@ class Menu:
 
         return u"\u001b[38;5;0m"
 
-    def _waiting(self, any=False) -> int:
+    def _waiting(self, any=False) -> int | str:
         """
         Waiting for receiving user selection key
 
@@ -184,7 +184,7 @@ class Menu:
     def execute(self) -> None:
         """Execute the menu"""
         self._show()
-        self._key = self._waiting()
+        self._key = int(self._waiting())
 
         # if user selection is out of the range, repeat the process
         if self._key > len(self._routes[self._cursor][1])-1 or self._key < 0:
