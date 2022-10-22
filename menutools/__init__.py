@@ -60,13 +60,13 @@ class Menu:
 
     def __init__(self, header: str = None, border: str = '=', border_length: int = 50,
                  align: str = 'left', splitter: str = '.', prompt: str = '>>') -> None:
-        self.header = header
-        self.border = border
-        self.border_length = border_length
+        self.header = str(header)
+        self.border = str(border)
+        self.border_length = int(border_length) if border_length >= 1 else 1
         self.align = '^' if align.lower(
         ) == 'center' else '>' if align.lower() == 'right' else '<'
-        self.prompt = prompt
-        self.splitter = splitter
+        self.prompt = str(prompt)
+        self.splitter = str(splitter)
         self._cursor = 0
         self._routes: list = []
         self._key = 0
@@ -123,8 +123,7 @@ class Menu:
             print(self._c_border + self.border * self.border_length)
             job_title = f'::{job}' if job else ''
             title = f'{self.header}::{self._routes[self._cursor][0]}{job_title}'
-            adjust = self.border_length if self.border_length <= 1 else self.border_length * \
-                len(self.border)
+            adjust = self.border_length * len(self.border)
             print(f'{self._c_header}{title:{self.align}{adjust}}')
             print(self._c_border + self.border *
                   self.border_length + self._c_interface + '\n')
