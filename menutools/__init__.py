@@ -43,7 +43,7 @@ class Menu:
     Methods
     -------
     add:
-        Create a new defined route by getting the tuple   
+        Create a new defined route by getting the tuple
 
     exit:
         Stop the program from running
@@ -86,7 +86,7 @@ class Menu:
             value = int(value)
             if 0 <= value <= 255:
                 return u"\u001b[38;5;" + str(value) + "m"
-        except:
+        except Exception:
             pass
 
         return u"\u001b[38;5;0m"
@@ -107,7 +107,7 @@ class Menu:
             return input(self.prompt + ' ' + self._c_interface)
         try:
             key = int(input(self.prompt + ' ' + self._c_interface))
-        except:
+        except Exception:
             self._refresh()
             self._show()
             return self._waiting()
@@ -129,7 +129,7 @@ class Menu:
 
     def _show(self) -> None:
         """
-        The functionality of this method is clearing the screen, printing the header 
+        The functionality of this method is clearing the screen, printing the header
         and, printing the menu list
         """
         self._print_header()
@@ -193,7 +193,7 @@ class Menu:
         # do it in valid range
         else:
 
-            # if selected option is sting, switch to selected route
+            # if selected option is string, switch to selected route
             if isinstance(self._current_function, str):
                 self._select(self._current_function)
                 self.execute()

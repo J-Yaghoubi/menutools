@@ -1,9 +1,10 @@
 from menutools import Menu
 
 """
-    This example shows how to use the menu, define submenus, 
+    This example shows how to use the menu, define submenus,
     switch between routes, and call functions.
 """
+
 
 # Simple function as an example
 def about():

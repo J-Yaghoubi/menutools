@@ -17,4 +17,4 @@ setup(
     license='MIT',
     packages=['menutools'],
     zip_safe=False
-    )
+)

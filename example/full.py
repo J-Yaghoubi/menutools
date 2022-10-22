@@ -3,13 +3,15 @@ from menutools import Color
 from functools import partial
 
 """
-    Here is an example that shows how you can customize the menu 
+    Here is an example that shows how you can customize the menu
     and use all the powers of the program
 """
+
 
 # function without argument
 def about():
     print('This is menutools')
+
 
 # function with argument
 def argument_func(text: str):
