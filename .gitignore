@@ -12,4 +12,5 @@
 __pycache__/
 __pycache__
 !/.gitignore
+!/.github
 build/
