@@ -1,5 +1,9 @@
 import os
 import sys
+import logging
+
+
+logger = logging.getLogger('menutools')
 
 
 class Color:
@@ -54,7 +58,8 @@ class Menu:
         Print a list of options in the current route by running the program
     """
 
-    def __init__(self, header: str = None, border: str = '=', border_length: int = 50, align: str = 'left', splitter: str = '.', prompt: str = '>>') -> None:
+    def __init__(self, header: str = None, border: str = '=', border_length: int = 50,
+                 align: str = 'left', splitter: str = '.', prompt: str = '>>') -> None:
         self.header = header
         self.border = border
         self.border_length = border_length
@@ -161,6 +166,7 @@ class Menu:
 
     def exit(self) -> None:
         """Exit from program"""
+        logger.debug('Program has been closed')
         sys.exit()
 
     def add(self, sub_menu: tuple) -> None:
@@ -180,17 +186,25 @@ class Menu:
         self._show()
         self._key = self._waiting()
 
+        # if user selection is out of the range, repeat the process
         if self._key > len(self._routes[self._cursor][1])-1 or self._key < 0:
             self.execute()
+
+        # do it in valid range
         else:
+
+            # if selected option is sting, switch to selected route
             if isinstance(self._current_function, str):
                 self._select(self._current_function)
                 self.execute()
+
+            # if selected option is callable, execute it
             else:
                 self._print_header(self._current_title)
-                result = self._current_function()
+                func = self._current_function
+                logger.debug(f'{func} has been executed')
+                result = func()
                 if isinstance(result, str):
                     self._select(result)
                 self._waiting(any=True)
                 self.execute()
-
