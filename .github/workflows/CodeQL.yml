@@ -40,5 +40,5 @@ jobs:
       - name: Find common security issues in Python code
         run: bandit . --recursive --skip B101 || true
         
-      - name: Find security issues in dependencies || true     
+      - name: Find security issues in dependencies
         run: safety check 
